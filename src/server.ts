@@ -12,15 +12,15 @@ app.use(cors())
 app.use(express.json())
 // Step 1: Create the transporter (your connection to the mail server)
 const transporter: Transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-     port: 465, 
-     secure: true,
+    host: "smtp-relay.brevo.com",
+     port: 587, 
+     secure: false,
     connectionTimeout: 10000,
     greetingTimeout: 10000 , 
      socketTimeout: 15000,
     auth: {
-        user: String(process.env.MAIL_USER),
-        pass: String(process.env.MAIL_PASS),
+        user: String(process.env.SMTP_USER),
+        pass: String(process.env.SMTP_PASS),
     }
 
 });
@@ -30,14 +30,14 @@ const sendEmail = async (receiver: string, name: string, subject: string) => {
     try {
 
         const info = await transporter.sendMail({
-            from: `MR BLUE Class<${process.env.MAIL_USER}>`,
+            from: `MR BLUE Class <${process.env.SENDER_EMAIL}>`,
             to: receiver,
             subject: "BOOKED CLASS",
             html: `<div style="padding:24px; font-family: Arial, sans-serif;">
             <h1 style="color:#0A1F44; font-size:24px;  border-bottom:2px solid black; margin-bottom:2px;">Your free trial class booked ${name}!</h1> 
                
-            <p style="font-size:16px;">Hi ${name}<p>
-            <p style="font-size:16px; color:#333;">You booked a free trial class for <span style="font-size:16px; font-weight:bold;">${subject}</span> trail class.</p>
+            <p style="font-size:16px;">Hi ${name}</p>
+            <p style="font-size:16px; color:#333;">You booked a free trial class for <span style="font-size:16px; font-weight:bold;">${subject}</span> trial class.</p>
             <p style="font-size:16px; color:#333; font-weight:bold; border-radius:4px; background-color:#DBEAFE; padding:4px;">We’ll be in touch with your class time soon.</p>
               
             <p style=" font-size:13px;">see you soon,</p>
@@ -68,7 +68,7 @@ app.post('/send-emails', async (req: Request, res: Response) => {
     }
 
 });
-app.post('/health', (req: Request, res: Response) => {
+app.get('/health', (req: Request, res: Response) => {
    res.send('Welcome to my first Express server!');
 });
 
