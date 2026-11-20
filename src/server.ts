@@ -12,7 +12,12 @@ app.use(cors())
 app.use(express.json())
 // Step 1: Create the transporter (your connection to the mail server)
 const transporter: Transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+     port: 465, 
+     secure: true,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000 , 
+     socketTimeout: 15000,
     auth: {
         user: String(process.env.MAIL_USER),
         pass: String(process.env.MAIL_PASS),
