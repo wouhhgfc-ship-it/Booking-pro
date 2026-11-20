@@ -13,7 +13,7 @@ app.use(express.json())
 // Step 1: Create the transporter (your connection to the mail server)
 const transporter: Transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
-     port: 587, 
+     port: 2525, 
      secure: false,
     connectionTimeout: 10000,
     greetingTimeout: 10000 , 
